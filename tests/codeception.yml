@@ -13,6 +13,12 @@ extensions:
     enabled:
         - Codeception\Extension\RunFailed
         - Codeception\Extension\Phantoman
+    config:
+         Codeception\Extension\Phantoman:
+                path: '/usr/bin/phantomjs'
+                debug: true
+                sslProtocol: any
+                ignoreSslErrors: true
 modules:
     config:
         Db:

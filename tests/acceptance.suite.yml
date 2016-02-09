@@ -6,11 +6,12 @@
 
 class_name: AcceptanceTester
 modules:
-    enabled: [WebDriver]
-    config:
-        - Webdriver:
-            url: http://socialbase.socialbase.com.br
-            browser: firefox
-            wait: 10
-            request_timeout: 30
-        - \Helper\Acceptance
+   enabled:
+      - WebDriver:
+         url: 'http://socialbase.socialbase.com.br'
+         browser: firefox
+         window_size: 1024x768
+         wait: 5
+         capabilities:
+             unexpectedAlertBehaviour: 'accept'
+
