@@ -6,7 +6,11 @@
 
 class_name: AcceptanceTester
 modules:
-    enabled:
-        - PhpBrowser:
+    enabled: [WebDriver]
+    config:
+        - Webdriver:
             url: http://socialbase.socialbase.com.br
+            browser: firefox
+            wait: 10
+            request_timeout: 30
         - \Helper\Acceptance
