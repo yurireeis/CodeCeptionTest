@@ -8,7 +8,7 @@ class_name: AcceptanceTester
 modules:
    enabled:
       - WebDriver:
-         url: 'http://socialbase.socialbase.com.br'
+         url: 'http://localhost:9005'
          browser: firefox
          window_size: 1024x768
          wait: 5
