@@ -8,10 +8,11 @@ class_name: AcceptanceTester
 modules:
    enabled:
       - WebDriver:
-         url: 'http://localhost:9005'
-         browser: phantomjs
+         url: 'https://qa-project.socialbase.com.br'
+         browser: chrome
          window_size: 1024x768
          wait: 5
+         http_proxy: direct
          capabilities:
              unexpectedAlertBehaviour: 'accept'
 
