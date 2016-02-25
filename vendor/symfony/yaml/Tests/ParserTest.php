@@ -426,19 +426,15 @@ foo: !!php/object:O:30:"Symfony\Component\Yaml\Tests\B":1:{s:1:"b";s:3:"foo";}
 bar: 1
 EOF;
         $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, false, true), '->parse() is able to parse objects');
-
-        $input = <<<EOF
-foo: !php/object:O:30:"Symfony\Component\Yaml\Tests\B":1:{s:1:"b";s:3:"foo";}
-bar: 1
-EOF;
-        $this->assertEquals(array('foo' => new B(), 'bar' => 1), $this->parser->parse($input, false, true), '->parse() is able to parse objects');
     }
 
-    /**
-     * @dataProvider invalidDumpedObjectProvider
-     */
-    public function testObjectSupportDisabledButNoExceptions($input)
+    public function testObjectSupportDisabledButNoExceptions()
     {
+        $input = <<<EOF
+foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}
+bar: 1
+EOF;
+
         $this->assertEquals(array('foo' => null, 'bar' => 1), $this->parser->parse($input), '->parse() does not parse objects');
     }
 
@@ -474,29 +470,11 @@ EOF;
     }
 
     /**
-     * @dataProvider invalidDumpedObjectProvider
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
-    public function testObjectsSupportDisabledWithExceptions($yaml)
+    public function testObjectsSupportDisabledWithExceptions()
     {
-        $this->parser->parse($yaml, true, false);
-    }
-
-    public function invalidDumpedObjectProvider()
-    {
-        $yamlTag = <<<EOF
-foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}
-bar: 1
-EOF;
-        $localTag = <<<EOF
-foo: !php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}
-bar: 1
-EOF;
-
-        return array(
-            'yaml-tag' => array($yamlTag),
-            'local-tag' => array($localTag),
-        );
+        $this->parser->parse('foo: !!php/object:O:30:"Symfony\Tests\Component\Yaml\B":1:{s:1:"b";s:3:"foo";}', true, false);
     }
 
     /**
@@ -838,8 +816,8 @@ EOF;
     }
 
     /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessage A colon cannot be used in an unquoted mapping value
+     * @group legacy
+     * throw ParseException in Symfony 3.0
      */
     public function testColonInMappingValueException()
     {
@@ -847,7 +825,19 @@ EOF;
 foo: bar: baz
 EOF;
 
+        $deprecations = array();
+        set_error_handler(function ($type, $msg) use (&$deprecations) {
+            if (E_USER_DEPRECATED === $type) {
+                $deprecations[] = $msg;
+            }
+        });
+
         $this->parser->parse($yaml);
+
+        $this->assertCount(1, $deprecations);
+        $this->assertContains('Using a colon in the unquoted mapping value "bar: baz" in line 1 is deprecated since Symfony 2.8 and will throw a ParseException in 3.0.', $deprecations[0]);
+
+        restore_error_handler();
     }
 
     public function testColonInMappingValueExceptionNotTriggeredByColonInComment()

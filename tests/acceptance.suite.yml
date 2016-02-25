@@ -10,9 +10,11 @@ modules:
       - WebDriver:
          url: 'https://qa-project.socialbase.com.br'
          browser: chrome
-         window_size: 1024x768
+         window_size: 1280x1024
          wait: 5
          http_proxy: direct
          capabilities:
              unexpectedAlertBehaviour: 'accept'
+             elementScrollBehavior: true
+
 

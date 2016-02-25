@@ -7,5 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
+    'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
+    'PhantomInstaller\\' => array($vendorDir . '/jakoch/phantomjs-installer/src'),
+    'JonnyW\\PhantomJs\\' => array($vendorDir . '/jonnyw/php-phantomjs/src'),
 );

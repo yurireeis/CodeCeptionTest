@@ -1,5 +1,19 @@
 {
     "require-dev": {
         "codeception/codeception": "~2.1 != 2.1.5"
+    },
+    "require": {
+        "jonnyw/php-phantomjs": "3.*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "PhantomInstaller\\Installer::installPhantomJS"
+        ],
+        "post-update-cmd": [
+            "PhantomInstaller\\Installer::installPhantomJS"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
     }
 }
